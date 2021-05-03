@@ -17,7 +17,7 @@ def fetch_mails():
 
     mail.select('inbox')
 
-    status, data = mail.search(None, 'UNSEEN')
+    status, data = mail.search(None, 'ALL')
 
     mail_ids = []
 
