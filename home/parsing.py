@@ -1,25 +1,26 @@
 import imaplib,email
 import os
 import traceback
-
 import pyperclip
 from imbox import Imbox
+from bs4 import BeautifulSoup
 
 host = "imap.gmail.com"
-# Please use different mail if you are using our code !
-username = "testmailtesting17@gmail.com"
-password = 'Testmail#12345'
+# username = "testmailtesting17@gmail.com"
+# password = 'Testmail#12345'
 
-EMAIL = username
-PASSWORD = password
-SERVER = host
-
-# connect to the server and go to its inbox
-mail = imaplib.IMAP4_SSL(SERVER)
-mail.login(EMAIL, PASSWORD)
+# EMAIL = username
+# PASSWORD = password
+# SERVER = host
+#
+# # connect to the server and go to its inbox
+# mail = imaplib.IMAP4_SSL(SERVER)
+# mail.login(EMAIL, PASSWORD)
 allmails=dict()
 
-def fetch_mails(mail_type):
+def fetch_mails(mail_type,emailid,password):
+    mail=imaplib.IMAP4_SSL("imap.gmail.com")
+    mail.login(emailid,password)
     mail.list()
 
     mail.select(mail_type)
@@ -38,8 +39,6 @@ def fetch_mails(mail_type):
         for response_part in data:
             if isinstance(response_part, tuple):
                 message = email.message_from_bytes(response_part[1])
-                # mail = email.message_from_string(email_body, policy=policy.default)
-                # mail.get_body().get_payload(decode=True)
                 mail_from = message['from']
                 mail_subject = message['subject']
 
@@ -56,7 +55,21 @@ def fetch_mails(mail_type):
                             temp['content_type']='html'
                         else:
                             temp['content_type']='elseother'
-                            mail_content='Can not display because the Encoding is not in proper format'
+                            mail_content="""
+                            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+                            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+                            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+                            <div class='container'><b> This email contains attachments which could be harmful we recommed Downloading only if your trust the Sender!</b></div>
+                            <form action='download' method='post'>
+                            {% csrf_token %}
+                            <input name='send_from' style='display:none' value={}>
+                            <input name='email' style='display:none' value={}>
+                            <input name='password' style='display:none' value={}>
+                            <button type='submit' onclick='location.href("download")' class='btn btn-danger center'> Download Attachments</button>
+                            </form>
+                            """.format(mail_from,emailid,password)
+                            
                 else:
                     temp['content_type']='other'
                     mail_content = message.get_payload(decode=True)
@@ -64,16 +77,21 @@ def fetch_mails(mail_type):
                 temp['from']=mail_from
                 temp['subject']=mail_subject
                 temp['content']=mail_content
+                temp['id']="maid"+str(i)
                 print(f'From: {mail_from}')
                 print(f'Subject: {mail_subject}')
                 print(f'Content: {mail_content}')
                 print(f'Type: {temp["content_type"]}')
                 allmails[i]=temp
 
-pyperclip.copy(f"{allmails}")
+    return(allmails)
 
 
-fetch_mails("inbox")
+# pyperclip.copy(f"{allmails}")
+
+
+# x=fetch_mails("inbox")
+# print(x)
 def downloadattachments(hst,usrname,passkey,fromuser):
     if os.path.exists("attachments"):
         pass
