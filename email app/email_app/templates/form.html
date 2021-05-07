@@ -1,0 +1,45 @@
+<html>
+
+<form role="form" class="form-horizontal" enctype="multipart/form-data" method='POST' action="{% url 'get_details' %}">
+    {% csrf_token %}
+    <div class="form-group">
+        <label class="col-lg-2 control-label">To</label>
+        <div class="col-lg-10">
+            <input type="text" placeholder="" id="inputEmail1" name="email" class="form-control">
+        </div>
+    </div>
+    {% comment %} <div class="form-group">
+        <label class="col-lg-2 control-label">Cc / Bcc</label>
+        <div class="col-lg-10">
+            <input type="text" placeholder="" id="cc" name="cc" class="form-control">
+        </div>
+    </div> {% endcomment %}
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Subject</label>
+        <div class="col-lg-10">
+            <input type="text" placeholder="" id="inputPassword1" name="Subject" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Message</label>
+        <div class="col-lg-10">
+            <textarea rows="10" cols="30" class="form-control" id="" name="Message"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-offset-2 col-lg-10">
+            <span class="btn green fileinput-button">
+                <i class="fa fa-plus fa fa-white"></i>
+                <span>Attachment</span>
+                <input type="file" name="files">
+            </span>
+            {% comment %} {% for u in uploads %}
+            <embed src="{{ u.doc }}" type="application/pdf" width="10%" height="200px" />
+            {% endfor %} {% endcomment %}
+            <button class="btn btn-send" type="submit">Send</button>
+        </div>
+    </div>
+</form>
+
+</html>
