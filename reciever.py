@@ -70,7 +70,7 @@ def downloadattachments(hst,usrname,passkey,fromuser):
     if not os.path.isdir(download_folder):
         os.makedirs(download_folder, exist_ok=True)
 
-    mail = Imbox(host, username=username, password=password, ssl=True, ssl_context=None, starttls=False)
+    mail = Imbox(hst, username=usrname, password=passkey, ssl=True, ssl_context=None, starttls=False)
     # currently it will receive message from user called shivanshusurya192@gmail.com if you want to change to specific user pass its name
 
     messages = mail.messages(sent_from=fromuser) # defaults to inbox
