@@ -1,4 +1,5 @@
-import imaplib,email
+import imaplib
+import email
 import os
 import traceback
 import pyperclip
@@ -7,11 +8,12 @@ from bs4 import BeautifulSoup
 
 host = "imap.gmail.com"
 
-allmails=dict()
+allmails = dict()
 
-def fetch_mails(mail_type,emailid,password):
-    mail=imaplib.IMAP4_SSL("imap.gmail.com")
-    mail.login(emailid,password)
+
+def fetch_mails(mail_type, emailid, password):
+    mail = imaplib.IMAP4_SSL("imap.gmail.com")
+    mail.login(emailid, password)
     mail.list()
 
     mail.select(mail_type)
@@ -24,7 +26,7 @@ def fetch_mails(mail_type,emailid,password):
         mail_ids += block.split()
     # print(mail_ids)
     for i in mail_ids:
-        temp=dict()
+        temp = dict()
         status, data = mail.fetch(i, '(RFC822)')
 
         for response_part in data:
@@ -38,29 +40,31 @@ def fetch_mails(mail_type,emailid,password):
                     for part in message.get_payload():
                         if part.get_content_type() == 'text/plain':
                             mail_content = part.get_payload(decode=True)
-                            mail_content=mail_content.decode()
-                            temp['content_type']='text'
-                        elif part.get_content_type()== 'text/html':
+                            mail_content = mail_content.decode()
+                            temp['content_type'] = 'text'
+                        elif part.get_content_type() == 'text/html':
                             mail_content = part.get_payload(decode=True)
-                            mail_content=mail_content.decode()
-                            temp['content_type']='html'
+                            mail_content = mail_content.decode()
+                            temp['content_type'] = 'html'
                         else:
-                            temp['content_type']='elseother'
-                            mail_content="This file contains attachments!"
-                           
+                            temp['content_type'] = 'elseother'
+                            mail_content = "This file contains attachments!"
+
                 else:
-                    temp['content_type']='other'
+                    temp['content_type'] = 'other'
                     mail_content = message.get_payload(decode=True)
 
-                temp['from']=mail_from
-                temp['subject']=mail_subject
-                temp['content']=mail_content
-                temp['id']="maid"+str(i)
+                temp['from'] = mail_from
+                temp['subject'] = mail_subject
+                temp['content'] = mail_content
+                temp['id'] = "maid"+str(i)
+                temp['email'] = emailid
+                temp['password'] = password
                 print(f'From: {mail_from}')
                 print(f'Subject: {mail_subject}')
                 print(f'Content: {mail_content}')
                 print(f'Type: {temp["content_type"]}')
-                allmails[i]=temp
+                allmails[i] = temp
 
     return(allmails)
 
@@ -70,7 +74,7 @@ def fetch_mails(mail_type,emailid,password):
 
 # x=fetch_mails("inbox")
 # print(x)
-def downloadattachments(hst,usrname,passkey,fromuser):
+def downloadattachments(hst, usrname, passkey, fromuser):
     if os.path.exists("attachments"):
         pass
     else:
@@ -80,10 +84,11 @@ def downloadattachments(hst,usrname,passkey,fromuser):
     if not os.path.isdir(download_folder):
         os.makedirs(download_folder, exist_ok=True)
 
-    mail = Imbox(hst, username=usrname, password=passkey, ssl=True, ssl_context=None, starttls=False)
+    mail = Imbox(hst, username=usrname, password=passkey,
+                 ssl=True, ssl_context=None, starttls=False)
     # currently it will receive message from user called shivanshusurya192@gmail.com if you want to change to specific user pass its name
 
-    messages = mail.messages(sent_from=fromuser) # defaults to inbox
+    messages = mail.messages(sent_from=fromuser)  # defaults to inbox
 
     for (uid, message) in messages:
         # mail.mark_seen(uid) # optional, mark message as read
@@ -99,6 +104,7 @@ def downloadattachments(hst,usrname,passkey,fromuser):
                 print(traceback.print_exc())
 
     mail.logout()
+
 
 """
 Available Message filters: 
