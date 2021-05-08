@@ -5,7 +5,7 @@ import imaplib
 
 
 def index(request):
-    # global email,password
+    global email,password
     if request.method=="POST":
         email=request.POST.get("email")
         password=request.POST.get("password")
@@ -27,7 +27,12 @@ def index(request):
 def inbox(request):
     if request.method=="POST":
         content=request.POST.get("content")
-        return HttpResponse(content)
+        content_type=request.POST.get("content_type")
+        send_from=request.POST.get("send_from")
+        if content_type=="elseother":
+            return render(request,"content.html",{"send_from":send_from})
+        else:
+            return HttpResponse(content)
     else:
         return HttpResponse("Something went wrong please go back and resubmit!")
 
@@ -37,10 +42,14 @@ def logout(request):
 
 def download(request):
     if request.method=="POST":
-        email=request.POST.get("email")
-        password=request.POST.get("password")
+        global email,password
+        # email=request.POST.get("email")
+        # password=request.POST.get("password")
         fromuser=request.POST.get("send_from")
-        downloadattachments("imap.gmail.com",email,password,fromuser)
-        return  HttpResponse("<h3>Attachments will be  downloaded shortly...</h3>")
+        try:
+            downloadattachments("imap.gmail.com",email,password,fromuser)
+            return  HttpResponse("<h3>Attachments will be  downloaded shortly...</h3>")
+        except:
+            return HttpResponse("<h3>Oops! Something went wrong please go back and resubmit!</h3>")
     else:
         return HttpResponse("<h3>Something went wrong please go back and Refresh</h3>")

@@ -518,7 +518,7 @@
         
         body {
           background: #031323;
-          overflow: hidden;
+
         }
   </style>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -678,14 +678,12 @@
               <li><span>1</span></li>
             </ul>
           </div>
-          <table class="table table-inbox table-hover">
+          <table class="table table-inbox table-hover" style="position:relative">
             <tbody>
 
             {% for x in mails.items %}
              {% for val in x %}
               {% if val.from %}
-              
-                
                 <tr class="unread" >
                 <td class="inbox-small-cells">
                   <input type="checkbox" class="mail-checkbox">
@@ -700,20 +698,19 @@
                 {% csrf_token %}
                 <input value="{{val.content}}" style="display:none" name="content">
                 <input value="{{val.content_type}}" style="display:none" name="content_type">
-                <button type="submit" class="btn btn-primary" onclick="location.href('inbox')" style="height:30px;width:70px;font-size:10px;">Check</button>
+                <input value="{{val.from}}" style="display:none" name="send_from">
+<!--                <input value="{{val.content_type}}" style="display:none" name="content_type">-->
+                <button type="submit" class="btn btn-primary" onclick="location.href('inbox')" style="height:30px;width:70px;font-size:15px;">Check</button>
             </form>
              </td>
           </tr>
-                  </div>
-                </div>
-              </div>
             {% endif %}
             {% endfor %}
             {% endfor %}
 
             </tbody>
           </table>
- 
+
 
         </div>
       </aside>
