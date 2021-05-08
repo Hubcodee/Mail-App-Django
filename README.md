@@ -1,9 +1,6 @@
 # Mail-App-Django
 Email app
 
-# Group Number 
-
-
 # Team Member
   - Shivanshu Suryakar 1841048
   - Ansh Shrivas 1841049
