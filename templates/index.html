@@ -547,7 +547,7 @@
         <div class="user-head">
           <a class="inbox-avatar" href="javascript:;">
             <img width="64" height="60"
-              src="https://bootsnipp.com/img/avatars/ebeb306fd7ec11ab68cbcaa34282158bd80361a7.jpg">
+              src="https://img.icons8.com/doodle/96/000000/iron-man.png">
           </a>
           <div class="user-name">
             <h5><a href="#">{{username}}</a></h5>
@@ -557,8 +557,8 @@
             <i class="fa fa-chevron-down"></i>
           </a>
         </div>
-        <div class="inbox-body">
-          <a href="#myModal" data-toggle="modal" title="Compose" class="btn btn-compose">
+        <<div class="inbox-body" style="font-size:13px;">
+          <a href="#myModal" data-toggle="modal" title="Compose" class="btn btn-compose" style="height:40px;width:237px;font-size:15px;margin-left:0px;color:white;background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);animation: gradient 10s ease infinite;">
             Compose
           </a>
           <!-- Modal -->
@@ -618,7 +618,7 @@
           </div>
           <!-- /.modal -->
         </div>
-        <ul class="inbox-nav inbox-divider">
+        <ul class="inbox-nav inbox-divider" style="font-size:13px;">
           <li class="active">
             <a href="#"><i class="fa fa-inbox"></i> Inbox <span class="label label-danger pull-right">2</span></a>
 
@@ -634,9 +634,15 @@
             <a href="#"><i class=" fa fa-external-link"></i> Drafts <span
                 class="label label-info pull-right"></span></a>
           </li>
-          <li>
-            <a href="#"><i class="fas fa-trash"></i> Trash</a>
+          <form action="/" method="POST">
+            <li>
+              <input style="display:none" name="email" value="{{email}}">
+              <input style="display:none" name="password" value="{{password}}">
+              <input style="display:none" name="type" value="trash">
+            <a href="#" type="submit"><i class="fas fa-trash"></i> Trash</a>
           </li>
+          </form>
+
           <li>
             <form action="/" method="any" >
               <button type="submit" onclick="location.href('logout')" class="signoutbtn" style="color:white;width:250px;margin-left:13px;background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);animation: gradient 10s ease infinite;margin-top:20px;margin-bottom:20px">
@@ -699,8 +705,11 @@
                 <input value="{{val.content}}" style="display:none" name="content">
                 <input value="{{val.content_type}}" style="display:none" name="content_type">
                 <input value="{{val.from}}" style="display:none" name="send_from">
-<!--                <input value="{{val.content_type}}" style="display:none" name="content_type">-->
-                <button type="submit" class="btn btn-primary" onclick="location.href('inbox')" style="height:30px;width:70px;font-size:15px;">Check</button>
+                <input value="{{val.email}}" style="display:none" name="email">
+                <input value="{{val.password}}" style="display:none" name="password">
+                <input value="{{val.subject}}" style="display:none" name="subject">
+                <button type="submit" class="btn btn-primary" onclick="location.href('inbox')" style="height:30px;width:70px;font-size:15px;margin-left:10px;">Check
+                </button>
             </form>
              </td>
           </tr>

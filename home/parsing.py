@@ -56,6 +56,8 @@ def fetch_mails(mail_type,emailid,password):
                 temp['subject']=mail_subject
                 temp['content']=mail_content
                 temp['id']="maid"+str(i)
+                temp['email']=emailid
+                temp['password']=password
                 print(f'From: {mail_from}')
                 print(f'Subject: {mail_subject}')
                 print(f'Content: {mail_content}')
