@@ -5,8 +5,8 @@ import webbrowser
 import os
 
 # account credentials
-username = "testmailtesting17@gmail.com"
-password = 'Testmail#12345'
+username = #############
+password = ################
 
 
 def clean(text):
